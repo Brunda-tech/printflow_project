@@ -1,0 +1,6 @@
+{
+  "name": "PrintFlow — Smart Print Queue Consolidation Simulator",
+  "description": "Interactive linked list and custom binary min-heap print queue consolidation simulator solving The Printing Office's Conflicting Logs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
