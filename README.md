@@ -1,7 +1,7 @@
 # PrintFlow — Smart Print Queue Consolidation Simulator
 
 **Problem Statement:** *The Printing Office's Conflicting Logs*  
-**Domain:** Linked Lists & Priority Processing
+**Domain:** Linked Lists & Priority Processing.
 
 PrintFlow is a full-stack data structures and algorithms application that merges $K$ pre-sorted department print queues (stored as custom singly linked lists) into a single consolidated print timeline in **$O(N \log K)$** time and **$O(K)$** auxiliary heap space — without ever using built-in sorting functions (`sort()`, `sorted()`) or built-in priority queue libraries (`heapq`, `PriorityQueue`).
 
