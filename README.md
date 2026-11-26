@@ -118,4 +118,4 @@ This verifies:
 - Exact preservation of special job identifiers
 - 50+ departments and **100,000 total jobs** stress benchmark
 - Rejection of unsorted input queues without silent sorting
-- End-to-end API route verification
+- End-to-end API route verification..
