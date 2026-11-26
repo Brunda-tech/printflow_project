@@ -1,6 +1,6 @@
 """
 PrintFlow Flask Backend API.
-
+This project was done as an assignment for dsa 3rd sem.
 Provides REST endpoints for queue validation, custom K-way merge execution,
 step-by-step visualization navigation, built-in example datasets, and CSV reporting.
 """
