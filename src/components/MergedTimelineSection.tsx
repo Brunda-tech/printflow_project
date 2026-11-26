@@ -55,7 +55,10 @@ export const MergedTimelineSection: React.FC<MergedTimelineSectionProps> = ({
   const handleDownloadCsv = async () => {
     try {
       setDownloadError(null);
-      await downloadCsvReport();
+      if (!report) {
+        throw new Error('Run queue consolidation before downloading the CSV report.');
+      }
+      downloadCsvReport(report, mergedJobs);
     } catch (err) {
       setDownloadError(err instanceof Error ? err.message : 'Failed to download CSV report.');
     }

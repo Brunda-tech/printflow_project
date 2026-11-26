@@ -4,6 +4,7 @@ import type {
   MergeReport,
   MergeResponse,
   MergeStep,
+  PrintJobNodeData,
   QueueValidationResponse,
 } from '../types/printflow';
 
@@ -72,12 +73,46 @@ export async function fetchMergeStep(
   return parseJsonSafe(res);
 }
 
-export async function downloadCsvReport(): Promise<void> {
-  const res = await fetch('/api/report?format=csv');
-  if (!res.ok) {
-    throw new Error('Run queue consolidation before downloading the CSV report.');
+export function downloadCsvReport(report: MergeReport, mergedJobs: PrintJobNodeData[]): void {
+  const rows: Array<Array<string | number>> = [
+    ['PrintFlow Merge Report'],
+    ['Metric', 'Value'],
+    ['Total Departments', report.total_departments],
+    ['Total Input Jobs', report.total_input_jobs],
+    ['Total Merged Jobs', report.total_merged_jobs],
+    ['Heap Insertions', report.heap_insertions],
+    ['Heap Removals', report.heap_removals],
+    ['Algorithm Comparisons', report.comparisons],
+    ['Empty Queues', report.empty_queues],
+    ['Merge Status', report.merge_status],
+    ['Time Complexity', report.time_complexity],
+    ['Space Complexity', report.space_complexity],
+    [],
+    ['Final Merged Timeline'],
+    ['Final Position', 'Job ID', 'Department', 'Submission Timestamp', 'Original Position'],
+  ];
+
+  for (const job of mergedJobs) {
+    rows.push([
+      job.final_position ?? 0,
+      job.job_id,
+      job.department_code,
+      job.submission_time,
+      job.original_position,
+    ]);
   }
-  const csvBlob = await res.blob();
+
+  const csv = rows
+    .map((row) =>
+      row
+        .map((value) => {
+          const text = String(value).replace(/"/g, '""');
+          return /[",\r\n]/.test(text) ? `"${text}"` : text;
+        })
+        .join(','),
+    )
+    .join('\r\n');
+  const csvBlob = new Blob([`${csv}\r\n`], {type: 'text/csv;charset=utf-8'});
   const url = URL.createObjectURL(csvBlob);
   const link = document.createElement('a');
   link.href = url;
